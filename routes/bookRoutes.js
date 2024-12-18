@@ -11,7 +11,7 @@ router.post('/books',
         body('title').notEmpty().withMessage('Title is required'),
         body('author').notEmpty().withMessage('Author is required'),
         body('genre').notEmpty().withMessage('Genre is required'),
-        body('publication_date').optional().isDate().withMessage('Publication date is required'),
+        body('publication_date').notEmpty().withMessage('Publication date is required'),
         body('isbn').notEmpty().withMessage('ISBN is required'),
 
     ], 

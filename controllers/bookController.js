@@ -2,6 +2,7 @@ const Book = require('../models/Book');
 const { validationResult } = require('express-validator');
 const fs = require('fs');
 const path = require('path');
+const { Op } = require('sequelize');
 
 const getBooks = async (req, res) => {
 
@@ -55,8 +56,8 @@ const filterBooks = async (req, res) => {
     const { title, author, genre, publication_date } = req.query;
     const where = {};
 
-    if (title) where.title = title;
-    if (author) where.author = author;
+    if (title) where.title = { [Op.iLike]: `%${title}%` };
+    if (author) where.author = { [Op.iLike]: `%${author}%` };
     if (genre) where.genre = genre;
     if (publication_date) where.publication_date = publication_date
 
@@ -95,7 +96,7 @@ const exportBooks = async (req, res) => {
                 fs.unlinkSync(filePath);
 
             }
-            
+
         });
 
     } catch (e) {
