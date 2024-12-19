@@ -1,16 +1,15 @@
-CREATE DATABASE second_bind_db;
+DROP TABLE IF EXISTS Inventory;
 
-\c second_bind_db;
-
-CREATE TABLE Inventory (
+CREATE TABLE IF NOT EXISTS Inventory (
     entry_id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
     genre VARCHAR(255) NOT NULL,
     publication_date DATE NOT NULL,
-    isbn VARCHAR(255) NOT NULL,
-)
+    isbn VARCHAR(255) NOT NULL UNIQUE
+);
 
 INSERT INTO Inventory (title, author, genre, publication_date, isbn) 
 VALUES 
-    ('The Great Gatsby', 'F. Scott Fitzgerald', 'Fiction', '1925-04-10', '9780743273565');
+    ('The Great Gatsby', 'F. Scott Fitzgerald', 'Fiction', '1925-04-10', '9780743273565')
+ON CONFLICT (isbn) DO NOTHING;

@@ -58,7 +58,7 @@ const filterBooks = async (req, res) => {
 
     if (title) where.title = { [Op.iLike]: `%${title}%` };
     if (author) where.author = { [Op.iLike]: `%${author}%` };
-    if (genre) where.genre = genre;
+    if (genre) where.genre = { [Op.iLike]: `%${genre}%` };
     if (publication_date) where.publication_date = publication_date
 
     try {

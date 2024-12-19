@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const { sequelize } = require('../config/db');
 
 const Book = sequelize.define('Book', {
     entry_id: {
@@ -20,7 +20,7 @@ const Book = sequelize.define('Book', {
         allowNull: false,
     },
     publication_date: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
     },
     isbn: {
@@ -28,7 +28,7 @@ const Book = sequelize.define('Book', {
         allowNull: false,
     }
 }, {
-    tableName: 'Inventory',
+    tableName: 'inventory',
     timestamps: false,
 });
 

@@ -13,10 +13,14 @@ const sequelize = new Sequelize(
 
 const initializeDatabase = async () => {
     try {
+
         await sequelize.sync({ alter: true });
         console.log('Database models synchronized.');
+
     } catch (e) {
+
         console.error('Error synchronizing models:', e.message);
+        
     }
 };
 
