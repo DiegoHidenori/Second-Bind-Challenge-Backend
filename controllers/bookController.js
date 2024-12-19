@@ -81,29 +81,17 @@ const exportBooks = async (req, res) => {
 
         const books = await Book.findAll();
         const jsonBooks = JSON.stringify(books, null, 4);
-        const filePath = path.join(__dirname, '../exports/books.json');
-        fs.writeFileSync(filePath, jsonBooks);
 
-        res.download(filePath, 'books.json', (err) => {
-            
-            if (err) {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Disposition', 'attachment; filename="books.json"');
 
-                console.error('Error exporting books:', err.message);
-                res.status(500).json({ status: false, message: err.message });
-
-            } else {
-
-                fs.unlinkSync(filePath);
-
-            }
-
-        });
+        res.send(jsonBooks);
 
     } catch (e) {
-        
+
         console.error('Error exporting books:', e.message);
         res.status(500).json({ status: false, message: e.message });
-
+        
     }
 
 }
