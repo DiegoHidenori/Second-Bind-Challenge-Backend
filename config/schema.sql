@@ -11,5 +11,10 @@ CREATE TABLE IF NOT EXISTS Inventory (
 
 INSERT INTO Inventory (title, author, genre, publication_date, isbn) 
 VALUES 
-    ('The Great Gatsby', 'F. Scott Fitzgerald', 'Fiction', '1925-04-10', '9780743273565')
+    ('The Great Gatsby', 'F. Scott Fitzgerald', 'Fiction', '1925-04-10', '9780743273565'),
+    ('To Kill a Mockingbird', 'Harper Lee', 'Fiction', '1960-07-11', '9780446310789'),
+    ('1984', 'George Orwell', 'Dystopian', '1949-06-08', '9780451524935'),
+    ('Pride and Prejudice', 'Jane Austen', 'Romance', '1813-01-28', '9781853260509'),
+    ('The Lord of the Rings', 'J.R.R. Tolkien', 'Fantasy', '1954-07-29', '9780261102385'),
+    ('The Catcher in the Rye', 'J.D. Salinger', 'Coming-of-age', '1951-07-16', '9780316769174')
 ON CONFLICT (isbn) DO NOTHING;

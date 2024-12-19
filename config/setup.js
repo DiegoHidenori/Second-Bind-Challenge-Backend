@@ -4,8 +4,6 @@ require('dotenv').config();
 
 const runSchema = async () => {
 
-    const db = process.env.DATABASE_NAME;
-
     const client = new Client({
 
         connectionString: process.env.DATABASE_URL,
@@ -19,35 +17,36 @@ const runSchema = async () => {
 
     try {
 
-        console.log('Connecting to database');
+        console.log('Connecting to the database...');
         await client.connect();
 
-        const result = await client.query(`SELECT 1 FROM information_schema.tables WHERE datname = $1`, [db]);
+        const tableCheckQuery = `
+            SELECT 1 
+            FROM information_schema.tables 
+            WHERE table_schema = 'public' AND table_name = 'inventory';
+        `;
+        const result = await client.query(tableCheckQuery);
+
         if (result.rowCount === 0) {
 
-            console.log(`Database '${db}' does not exist. Creating...`);
-            await client.query(`CREATE DATABASE ${db} OWNER ${process.env.DATABASE_USER}`);
-            console.log(`Database '${db}' created successfully.`);
-
+            console.log('Table does not exist. Applying schema...');
             const schema = fs.readFileSync('config/schema.sql', 'utf8');
             await client.query(schema);
             console.log('Schema applied successfully.');
 
         } else {
 
-            console.log(`Database '${db}' already exists.`);
+            console.log('Table already exists.');
 
         }
-
     } catch (e) {
 
-        console.log(e);
-        return;
+        console.error('Error during setup:', e.message);
 
     } finally {
 
         await client.end();
-        console.log('Disconnected from database');
+        console.log('Disconnected from the database.');
 
     }
 
